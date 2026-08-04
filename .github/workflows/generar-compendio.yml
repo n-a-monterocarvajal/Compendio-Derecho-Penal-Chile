@@ -1,0 +1,76 @@
+name: Generar compendio penal
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 1 * *"
+
+permissions:
+  contents: write
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v7
+
+      - name: Preparar Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r app/requirements.txt
+
+      - name: Instalar Chromium de Playwright
+        run: |
+          python -m playwright install --with-deps chromium
+
+      - name: Generar compendio
+        run: |
+          python app/CompendioNormativo.py --config app/fuentes.json
+
+      - name: Crear versión publicada
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          archivo=$(ls CompendioDerechoPenalChile_*.pdf)
+          fecha=$(date -u +%Y%m%d_%H%M_UTC)
+          gh release create "v${fecha}" "$archivo" \
+            --title "Compendio ${fecha}" \
+            --notes "Compendio generado automáticamente mediante GitHub Actions."
+
+      - name: Mostrar log si existe
+        if: always()
+        run: |
+          if [ -f trabajo/ultimo_log.txt ]; then
+            echo "----- trabajo/ultimo_log.txt -----"
+            cat trabajo/ultimo_log.txt
+          fi
+
+      - name: Subir PDF generado
+        if: success()
+        uses: actions/upload-artifact@v7
+        with:
+          name: CompendioDerechoPenalChile
+          path: CompendioDerechoPenalChile_*.pdf
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Subir diagnóstico si falla
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: diagnostico_compendio_penal
+          path: |
+            trabajo/ultimo_log.txt
+            trabajo/descargas/debug_*.png
+            trabajo/descargas/debug_*.html
+          retention-days: 30
+          if-no-files-found: ignore
