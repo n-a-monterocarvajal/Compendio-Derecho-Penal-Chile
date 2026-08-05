@@ -55,7 +55,9 @@ La versión más reciente del compendio se publica como *release* del repositori
 
 El historial de versiones anteriores se encuentra disponible en la sección de *releases* del repositorio.
 
-Los *artifacts* de las ejecuciones de GitHub Actions se mantienen adicionalmente como respaldo temporal durante 30 días.
+Cada publicación nueva incluye un archivo `.sha256`, una certificación de procedencia de GitHub y un enlace al *run* que produjo el PDF. Las notas del *release* contienen el comando exacto para verificar la certificación. Las publicaciones futuras son inmutables: una corrección siempre origina una versión nueva.
+
+Los *artifacts* del PDF y su checksum se mantienen adicionalmente como respaldo temporal durante 30 días.
 
 ## 🔄 Actualización automática
 
