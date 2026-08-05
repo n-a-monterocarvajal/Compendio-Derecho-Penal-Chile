@@ -1,5 +1,7 @@
 # ⚖️ Compendio de normas de Derecho Penal chileno
 
+[![Última versión](https://img.shields.io/github/v/release/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile?sort=date&display_name=tag&label=%C3%BAltima%20versi%C3%B3n)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/releases/latest)
+
 Este repositorio revisa semanalmente las versiones de sus normas en Ley Chile y genera un nuevo compendio PDF solo cuando detecta una actualización. También permite iniciar una generación manual mediante GitHub Actions.
 
 ## 📚 Normas incluidas
