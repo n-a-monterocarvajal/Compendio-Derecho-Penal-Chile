@@ -61,9 +61,11 @@ Cada publicación nueva incluye un archivo `.sha256`, una certificación de proc
 
 Los *artifacts* del PDF y su *checksum* se mantienen adicionalmente como respaldo temporal durante 30 días.
 
-## 🔄 Actualización automática
+## 🔄 Cómo funciona y se actualiza el compendio
 
-El estado normalizado de las versiones se compara semanalmente con la información vigente de Ley Chile. Una nueva vigencia, un cambio de versión actual, un evento pendiente o una modificación de las alertas de texto diferido dispara una ejecución separada del generador. Las notas del *release* indican qué normas cambiaron.
+**Generación:** el generador abre cada norma en un navegador real (Chromium, controlado por Playwright) tal como lo haría una persona: entra a la página de esa norma en Ley Chile, busca el botón "Descargar" y hace *clic* en él. Repite esto una vez por cada una de las normas listadas en `app/fuentes.json` y, al final, une todos los PDF obtenidos en un solo archivo, agregando un marcador (índice navegable) por norma.
+
+**Revisión semanal:** en vez de abrir un navegador, el verificador consulta directamente el mismo servicio que usa la página de Ley Chile para cargar sus datos —un endpoint que entrega la ficha de la norma en JSON: vigencia actual, historial de versiones, alertas de texto pendiente de publicar— y compara ese estado con el guardado la semana anterior en `.github/estado-versiones.json`. Si algo cambió (nueva vigencia, nueva versión, alerta nueva), dispara automáticamente al generador para producir un compendio actualizado. Las notas del *release* indican qué normas cambiaron.
 
 El obtenedor, el ensamblador PDF, el monitor de versiones y sus decisiones técnicas se mantienen en [GeneradorCompendiosLeyChile](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile). Este repositorio fija una revisión inmutable de ese motor para que sus actualizaciones sean explícitas y auditables.
 
