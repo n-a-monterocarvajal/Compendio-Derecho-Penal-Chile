@@ -5,7 +5,9 @@
 [![Generación](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/generar-compendio.yml/badge.svg?branch=main)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/generar-compendio.yml)
 [![Licencia: MIT](https://img.shields.io/github/license/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile?label=licencia)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/blob/main/LICENSE)
 
-Este repositorio revisa semanalmente las versiones de sus normas en Ley Chile y genera un nuevo compendio PDF solo cuando detecta una actualización. También permite iniciar una generación manual mediante GitHub Actions.
+Genera y actualiza automáticamente un compendio en PDF de normas penales chilenas obtenidas desde el servicio Ley Chile, de la Biblioteca del Congreso Nacional de Chile.
+
+Este repositorio revisa semanalmente las versiones de sus normas y genera un nuevo compendio PDF solo cuando detecta una actualización.
 
 ## 📚 Normas incluidas
 
@@ -57,7 +59,7 @@ El historial de versiones anteriores se encuentra disponible en la sección de *
 
 Cada publicación nueva incluye un archivo `.sha256`, una certificación de procedencia de GitHub y un enlace al *run* que produjo el PDF. Las notas del *release* contienen el comando exacto para verificar la certificación. Las publicaciones futuras son inmutables: una corrección siempre origina una versión nueva.
 
-Los *artifacts* del PDF y su checksum se mantienen adicionalmente como respaldo temporal durante 30 días.
+Los *artifacts* del PDF y su *checksum* se mantienen adicionalmente como respaldo temporal durante 30 días.
 
 ## 🔄 Actualización automática
 
