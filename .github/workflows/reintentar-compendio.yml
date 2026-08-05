@@ -1,0 +1,27 @@
+name: Reintentar compendio penal
+
+on:
+  workflow_run:
+    workflows:
+      - Generar compendio penal
+    types:
+      - completed
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  reintento:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Esperar una hora antes del segundo intento
+        run: sleep 3600
+
+      - name: Reintentar los jobs fallidos
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: gh run rerun "$RUN_ID" --failed --repo "$GITHUB_REPOSITORY"

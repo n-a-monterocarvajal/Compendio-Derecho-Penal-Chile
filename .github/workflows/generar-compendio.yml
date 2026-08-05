@@ -2,16 +2,23 @@ name: Generar compendio penal
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 10 1 * *"
+    inputs:
+      notas_actualizacion:
+        description: Motivo y normas actualizadas
+        required: false
+        default: Ejecución manual del compendio.
 
 permissions:
   contents: write
 
+concurrency:
+  group: generar-compendio-penal
+  cancel-in-progress: false
+
 jobs:
   generar:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
 
     steps:
       - name: Obtener repositorio
@@ -28,23 +35,28 @@ jobs:
           pip install -r app/requirements.txt
 
       - name: Instalar Chromium de Playwright
-        run: |
-          python -m playwright install --with-deps chromium
+        run: python -m playwright install --with-deps chromium
 
       - name: Generar compendio
-        run: |
-          python app/CompendioNormativo.py --config app/fuentes.json
+        run: generar-compendio-leychile --config app/fuentes.json
 
       - name: Crear versión publicada
         if: success()
         env:
           GH_TOKEN: ${{ github.token }}
+          NOTAS_ACTUALIZACION: ${{ inputs.notas_actualizacion }}
         run: |
-          archivo=$(ls CompendioDerechoPenalChile_*.pdf)
-          fecha=$(date -u +%Y%m%d_%H%M_UTC)
+          archivo=$(find . -maxdepth 1 -name 'CompendioDerechoPenalChile_*.pdf' -print -quit)
+          test -n "$archivo"
+          fecha=$(date -u +%Y%m%d_%H%M%S_UTC)
+          {
+            echo "Compendio generado automáticamente desde las fuentes oficiales de Ley Chile."
+            echo
+            printf '%s\n' "${NOTAS_ACTUALIZACION:-Ejecución manual del compendio.}"
+          } > release-notes.md
           gh release create "v${fecha}" "$archivo" \
             --title "Compendio ${fecha}" \
-            --notes "Compendio generado automáticamente mediante GitHub Actions."
+            --notes-file release-notes.md
 
       - name: Mostrar log si existe
         if: always()
