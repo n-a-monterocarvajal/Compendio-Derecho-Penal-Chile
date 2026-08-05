@@ -10,6 +10,8 @@ on:
 
 permissions:
   contents: write
+  id-token: write
+  attestations: write
 
 concurrency:
   group: generar-compendio-penal
@@ -40,45 +42,117 @@ jobs:
       - name: Generar compendio
         run: generar-compendio-leychile --config app/fuentes.json
 
-      - name: Crear versión publicada
-        if: success()
+      - name: Validar y preparar publicación
+        id: publicacion
+        shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
           NOTAS_ACTUALIZACION: ${{ inputs.notas_actualizacion }}
         run: |
-          archivo=$(find . -maxdepth 1 -name 'CompendioDerechoPenalChile_*.pdf' -print -quit)
-          test -n "$archivo"
+          set -euo pipefail
+
+          mapfile -d '' archivos < <(find . -maxdepth 1 -type f -name 'CompendioDerechoPenalChile_*.pdf' -print0)
+          if (( ${#archivos[@]} != 1 )); then
+            echo "Se esperaba exactamente un PDF y se encontraron ${#archivos[@]}." >&2
+            exit 1
+          fi
+
+          archivo="${archivos[0]}"
           nombre_archivo=$(basename "$archivo" .pdf)
           fecha=${nombre_archivo#CompendioDerechoPenalChile_}
           if [[ "$fecha" == "$nombre_archivo" || ! "$fecha" =~ ^[0-9]{8}_[0-9]{4}_UTC$ ]]; then
             echo "Nombre de PDF inesperado: $nombre_archivo" >&2
             exit 1
           fi
+
+          python - "$archivo" <<'PY'
+          import sys
+          from pathlib import Path
+
+          from pypdf import PdfReader
+
+          ruta = Path(sys.argv[1])
+          if ruta.stat().st_size < 1024:
+              raise SystemExit(f"PDF demasiado pequeño: {ruta.stat().st_size} bytes")
+
+          with ruta.open("rb") as archivo:
+              if archivo.read(5) != b"%PDF-":
+                  raise SystemExit("El archivo no tiene una cabecera PDF válida")
+              archivo.seek(0)
+              lector = PdfReader(archivo, strict=True)
+              paginas = len(lector.pages)
+              if paginas == 0:
+                  raise SystemExit("El PDF no contiene páginas")
+              for pagina in lector.pages:
+                  _ = pagina.mediabox
+
+          print(f"PDF válido: {paginas} páginas")
+          PY
+
+          checksum="${archivo}.sha256"
+          sha256sum "$(basename "$archivo")" > "$checksum"
+          digest=$(cut -d ' ' -f 1 "$checksum")
+
           {
             echo "Compendio generado automáticamente desde las fuentes oficiales de Ley Chile."
             echo
             printf '%s\n' "${NOTAS_ACTUALIZACION:-Ejecución manual del compendio.}"
+            echo
+            echo "### Integridad y procedencia"
+            echo
+            printf -- '- SHA-256: `%s`\n' "$digest"
+            printf -- '- Verificación: `gh attestation verify "%s.pdf" --repo "%s"`\n' "$nombre_archivo" "$GITHUB_REPOSITORY"
+            printf -- '- Ejecución: %s/%s/actions/runs/%s\n' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID"
           } > release-notes.md
-          gh release create "v${fecha}" "$archivo" \
-            --title "Compendio ${fecha}" \
-            --notes-file release-notes.md
+
+          {
+            echo "pdf=$archivo"
+            echo "checksum=$checksum"
+            echo "tag=v${fecha}"
+            echo "titulo=Compendio ${fecha}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Subir artefactos validados del run
+        uses: actions/upload-artifact@v7
+        with:
+          name: CompendioDerechoPenalChile
+          path: |
+            ${{ steps.publicacion.outputs.pdf }}
+            ${{ steps.publicacion.outputs.checksum }}
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Certificar procedencia del PDF
+        uses: actions/attest@v4
+        with:
+          subject-path: ${{ steps.publicacion.outputs.pdf }}
 
       - name: Mostrar log si existe
         if: always()
         run: |
           if [ -f trabajo/ultimo_log.txt ]; then
             echo "----- trabajo/ultimo_log.txt -----"
-            cat trabajo/ultimo_log.txt
+            cat trabajo/ultimo_log.txt || true
           fi
 
-      - name: Subir PDF generado
-        if: success()
-        uses: actions/upload-artifact@v7
-        with:
-          name: CompendioDerechoPenalChile
-          path: CompendioDerechoPenalChile_*.pdf
-          retention-days: 30
-          if-no-files-found: error
+      - name: Crear release en borrador
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.publicacion.outputs.tag }}
+          TITULO: ${{ steps.publicacion.outputs.titulo }}
+          PDF: ${{ steps.publicacion.outputs.pdf }}
+          CHECKSUM: ${{ steps.publicacion.outputs.checksum }}
+        run: |
+          gh release create "$TAG" "$PDF#Compendio PDF" "$CHECKSUM#Suma SHA-256" \
+            --draft \
+            --latest=false \
+            --title "$TITULO" \
+            --notes-file release-notes.md
+
+      - name: Publicar release validada
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.publicacion.outputs.tag }}
+        run: gh release edit "$TAG" --draft=false --latest
 
       - name: Subir diagnóstico si falla
         if: failure()
