@@ -48,7 +48,12 @@ jobs:
         run: |
           archivo=$(find . -maxdepth 1 -name 'CompendioDerechoPenalChile_*.pdf' -print -quit)
           test -n "$archivo"
-          fecha=$(date -u +%Y%m%d_%H%M%S_UTC)
+          nombre_archivo=$(basename "$archivo" .pdf)
+          fecha=${nombre_archivo#CompendioDerechoPenalChile_}
+          if [[ "$fecha" == "$nombre_archivo" || ! "$fecha" =~ ^[0-9]{8}_[0-9]{4}_UTC$ ]]; then
+            echo "Nombre de PDF inesperado: $nombre_archivo" >&2
+            exit 1
+          fi
           {
             echo "Compendio generado automáticamente desde las fuentes oficiales de Ley Chile."
             echo
