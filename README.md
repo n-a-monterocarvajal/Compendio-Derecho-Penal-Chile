@@ -32,6 +32,8 @@ Este repositorio revisa semanalmente las versiones de sus normas en Ley Chile y 
 26. [Ley N.º 17.336, Propiedad Intelectual.](https://www.bcn.cl/leychile/navegar?idNorma=28933)
 27. [Decreto Ley N.º 2.460, de 1979, del Ministerio de Defensa Nacional, que dicta Ley Orgánica de Policía de Investigaciones de Chile.](https://www.bcn.cl/leychile/navegar?idNorma=6926)
 
+*La selección de las normas está basada en el índice de la publicación [Compilado de Derecho Penal y Procesal Penal (Hammurabi)](https://www.editorialhammurabi.com/shop/pais/chile/compilado-de-derecho-penal-y-procesal-penal-2026-hammurabi/).*
+
 ## 📄 PDF generado
 
 El *workflow* produce un archivo PDF con nombre versionado por fecha y hora UTC:
