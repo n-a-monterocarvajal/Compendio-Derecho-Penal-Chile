@@ -1,6 +1,6 @@
 # ⚖️ Compendio de normas de Derecho Penal chileno
 
-Este repositorio genera mensualmente, mediante GitHub Actions, un compendio PDF actualizado de normas de Derecho Penal chileno disponibles en el servicio Ley Chile de la Biblioteca del Congreso Nacional de Chile.
+Este repositorio revisa semanalmente las versiones de sus normas en Ley Chile y genera un nuevo compendio PDF solo cuando detecta una actualización. También permite iniciar una generación manual mediante GitHub Actions.
 
 ## 📚 Normas incluidas
 
@@ -49,6 +49,12 @@ La versión más reciente del compendio se publica como *release* del repositori
 El historial de versiones anteriores se encuentra disponible en la sección de *releases* del repositorio.
 
 Los *artifacts* de las ejecuciones de GitHub Actions se mantienen adicionalmente como respaldo temporal durante 30 días.
+
+## 🔄 Actualización automática
+
+El estado normalizado de las versiones se compara semanalmente con la información vigente de Ley Chile. Una nueva vigencia, un cambio de versión actual, un evento pendiente o una modificación de las alertas de texto diferido dispara una ejecución separada del generador. Las notas del *release* indican qué normas cambiaron.
+
+El obtenedor, el ensamblador PDF, el monitor de versiones y sus decisiones técnicas se mantienen en [GeneradorCompendiosLeyChile](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile). Este repositorio fija una revisión inmutable de ese motor para que sus actualizaciones sean explícitas y auditables.
 
 ## 🔐 Licencia
 

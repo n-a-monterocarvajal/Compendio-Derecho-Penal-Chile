@@ -1,0 +1,71 @@
+name: Revisar versiones penales
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 11 * * 1"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: revisar-versiones-penales
+  cancel-in-progress: false
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v7
+
+      - name: Preparar Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Instalar monitor
+        run: pip install -r app/requirements.txt
+
+      - name: Revisar versiones de Ley Chile
+        id: revisar
+        run: |
+          revisar-versiones-leychile \
+            --config app/fuentes.json \
+            --estado .github/estado-versiones.json \
+            --cambios trabajo/cambios-versiones.json \
+            --resumen trabajo/cambios-versiones.md
+
+      - name: Persistir nuevo estado
+        if: steps.revisar.outputs.baseline_created == 'true' || steps.revisar.outputs.changes_detected == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/estado-versiones.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: actualizar estado de versiones"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Lanzar nuevo compendio
+        if: steps.revisar.outputs.changes_detected == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run generar-compendio.yml \
+            --ref "$GITHUB_REF_NAME" \
+            --field notas_actualizacion="$(cat trabajo/cambios-versiones.md)"
+
+      - name: Subir resultado de la revisión
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: revision-versiones-penales
+          path: |
+            trabajo/cambios-versiones.json
+            trabajo/cambios-versiones.md
+          retention-days: 30
+          if-no-files-found: ignore

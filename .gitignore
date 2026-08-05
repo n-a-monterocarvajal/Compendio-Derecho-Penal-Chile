@@ -1,5 +1,7 @@
+trabajo/
+*.pdf
+*.log
 __pycache__/
 *.py[cod]
+.env
 .venv/
-trabajo/
-CompendioDerechoPenalChile_*.pdf
