@@ -3,7 +3,7 @@ name: Revisar versiones penales
 on:
   workflow_dispatch:
   schedule:
-    - cron: "23 11 * * 1"
+    - cron: "23 11 * * *"
 
 permissions:
   contents: write

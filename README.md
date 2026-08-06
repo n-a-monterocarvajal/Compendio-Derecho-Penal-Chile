@@ -1,13 +1,13 @@
 # ⚖️ Compendio de normas de Derecho Penal chileno
 
 [![Última versión](https://img.shields.io/github/v/release/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile?sort=date&display_name=tag&label=%C3%BAltima%20versi%C3%B3n)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/releases/latest)
-[![Revisión semanal](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/revisar-versiones.yml/badge.svg?branch=main)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/revisar-versiones.yml)
+[![Revisión diaria](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/revisar-versiones.yml/badge.svg?branch=main)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/revisar-versiones.yml)
 [![Generación](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/generar-compendio.yml/badge.svg?branch=main)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/generar-compendio.yml)
 [![Licencia: MIT](https://img.shields.io/github/license/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile?label=licencia)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/blob/main/LICENSE)
 
 Genera y actualiza automáticamente un compendio en PDF de normas penales chilenas obtenidas desde el servicio Ley Chile, de la Biblioteca del Congreso Nacional de Chile.
 
-Este repositorio revisa semanalmente las versiones de sus normas y genera un nuevo compendio PDF solo cuando detecta una actualización.
+Este repositorio revisa diariamente las versiones de sus normas y genera un nuevo compendio PDF solo cuando detecta una actualización.
 
 ## 📚 Normas incluidas
 
@@ -65,7 +65,7 @@ Los *artifacts* del PDF y su *checksum* se mantienen adicionalmente como respald
 
 **Generación:** el generador abre cada norma en un navegador real (Chromium, controlado por Playwright) tal como lo haría una persona: entra a la página de esa norma en Ley Chile, busca el botón "Descargar" y hace *clic* en él. Repite esto una vez por cada una de las normas listadas en `app/fuentes.json` y, al final, une todos los PDF obtenidos en un solo archivo, agregando un marcador (índice navegable) por norma.
 
-**Revisión semanal:** en vez de abrir un navegador, el verificador consulta directamente el mismo servicio que usa la página de Ley Chile para cargar sus datos —un endpoint que entrega la ficha de la norma en JSON: vigencia actual, historial de versiones, alertas de texto pendiente de publicar— y compara ese estado con el guardado la semana anterior en `.github/estado-versiones.json`. Si algo cambió (nueva vigencia, nueva versión, alerta nueva), dispara automáticamente al generador para producir un compendio actualizado. Las notas del *release* indican qué normas cambiaron.
+**Revisión diaria:** en vez de abrir un navegador, el verificador consulta directamente el mismo servicio que usa la página de Ley Chile para cargar sus datos —un endpoint que entrega la ficha de la norma en JSON: vigencia actual, historial de versiones, alertas de texto pendiente de publicar— y compara ese estado con el guardado el día anterior en `.github/estado-versiones.json`. Si algo cambió (nueva vigencia, nueva versión, alerta nueva), dispara automáticamente al generador para producir un compendio actualizado. Las notas del *release* indican qué normas cambiaron.
 
 El obtenedor, el ensamblador PDF, el monitor de versiones y sus decisiones técnicas se mantienen en [GeneradorCompendiosLeyChile](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile). Este repositorio fija una revisión inmutable de ese motor para que sus actualizaciones sean explícitas y auditables.
 
