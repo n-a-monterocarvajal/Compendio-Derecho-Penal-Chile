@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "actualizado_utc": "2026-08-06T13:05:44+00:00",
+  "actualizado_utc": "2026-08-12T12:03:50+00:00",
   "fuentes": {
     "242302": {
       "id_norma": "242302",
@@ -457,8 +457,8 @@
       "marcador": "Código Penal.",
       "titulo_bcn": "CÓDIGO PENAL",
       "vigencia_actual": {
-        "desde": "2025-11-28",
-        "hasta": "2026-08-11",
+        "desde": "2026-08-12",
+        "hasta": "",
         "tipo": "2",
         "descripcion": "Última Versión"
       },
@@ -1438,30 +1438,24 @@
         {
           "desde": "2025-11-28",
           "hasta": "2026-08-11",
-          "tipo": "2",
-          "descripcion": "Última Versión"
+          "tipo": "1",
+          "descripcion": "Intermedio"
         },
         {
           "desde": "2026-08-12",
           "hasta": "",
-          "tipo": "7",
-          "descripcion": "Con Vigencia Diferida por Fecha"
+          "tipo": "2",
+          "descripcion": "Última Versión"
         }
       ],
       "fecha_version": "1874-11-12",
       "fecha_actualizacion_texto": "1874-11-12",
       "eventos_pendientes": [],
       "diferido": {
-        "presente": true,
-        "alertas": [
-          {
-            "clase": "diferido",
-            "texto": "Tiene texto diferido",
-            "mensaje": "Con modificaciones que regirán a contar del 12-AGO-2026"
-          }
-        ]
+        "presente": false,
+        "alertas": []
       },
-      "huella": "19ad11ccd09aed3809815308438bd0077862f57cca491030b1b773aa4cf64cbd"
+      "huella": "fb35198910944c3c34b945c355ccefda75546ba2540a31ec9c08fcb013b5d31d"
     },
     "176595": {
       "id_norma": "176595",
@@ -2863,8 +2857,8 @@
       "marcador": "Ley N.º 20.931, que facilita la aplicación efectiva de las penas establecidas para los delitos de robo, hurto y receptación y mejora la persecución penal en dichos delitos.",
       "titulo_bcn": "FACILITA LA APLICACIÓN EFECTIVA DE LAS PENAS ESTABLECIDAS PARA LOS DELITOS DE ROBO, HURTO Y RECEPTACIÓN Y MEJORA LA PERSECUCIÓN PENAL EN DICHOS DELITOS",
       "vigencia_actual": {
-        "desde": "2023-09-11",
-        "hasta": "2026-08-11",
+        "desde": "2026-08-12",
+        "hasta": "",
         "tipo": "2",
         "descripcion": "Última Versión"
       },
@@ -2890,30 +2884,24 @@
         {
           "desde": "2023-09-11",
           "hasta": "2026-08-11",
-          "tipo": "2",
-          "descripcion": "Última Versión"
+          "tipo": "1",
+          "descripcion": "Intermedio"
         },
         {
           "desde": "2026-08-12",
           "hasta": "",
-          "tipo": "7",
-          "descripcion": "Con Vigencia Diferida por Fecha"
+          "tipo": "2",
+          "descripcion": "Última Versión"
         }
       ],
       "fecha_version": "2016-07-05",
       "fecha_actualizacion_texto": "2016-07-05",
       "eventos_pendientes": [],
       "diferido": {
-        "presente": true,
-        "alertas": [
-          {
-            "clase": "diferido",
-            "texto": "Tiene texto diferido",
-            "mensaje": "Con modificaciones que regirán a contar del 12-AGO-2026"
-          }
-        ]
+        "presente": false,
+        "alertas": []
       },
-      "huella": "6685e4f087f5b9de292ae55613825c7dafd1a155e24a3b40607623dcb86cfd08"
+      "huella": "580dbb8320425cd875aa3d202e2a7f38fe1fa2640202c0ef28e9a31413d6092a"
     },
     "1113932": {
       "id_norma": "1113932",
@@ -3322,8 +3310,8 @@
       "marcador": "Decreto con Fuerza de Ley N.º 1, de 2009, de los Ministerios de Transportes y Telecomunicaciones y de Justicia, que fija el texto refundido, coordinado y sistematizado de la Ley N.º 18.290, de Tránsito.",
       "titulo_bcn": "FIJA TEXTO REFUNDIDO, COORDINADO Y SISTEMATIZADO DE LA LEY DE TRÁNSITO",
       "vigencia_actual": {
-        "desde": "2026-06-02",
-        "hasta": "2026-08-11",
+        "desde": "2026-08-12",
+        "hasta": "2222-02-01",
         "tipo": "2",
         "descripcion": "Última Versión"
       },
@@ -3631,14 +3619,14 @@
         {
           "desde": "2026-06-02",
           "hasta": "2026-08-11",
-          "tipo": "2",
-          "descripcion": "Última Versión"
+          "tipo": "1",
+          "descripcion": "Intermedio"
         },
         {
           "desde": "2026-08-12",
           "hasta": "2222-02-01",
-          "tipo": "7",
-          "descripcion": "Con Vigencia Diferida por Fecha"
+          "tipo": "2",
+          "descripcion": "Última Versión"
         },
         {
           "desde": "2222-02-02",
@@ -3659,11 +3647,11 @@
           {
             "clase": "diferido",
             "texto": "Tiene texto diferido",
-            "mensaje": "La ley 21549 introdujo modificaciones a los artículos 4, 170 y 211 de esta ley, las cuales entrarán en vigor transcurridos noventa días desde la publicación en el Diario Oficial del último de los reglamentos a que hace referencia el artículo segundo transitorio del citado cuerpo legal.<br />La modificación ordenada por el artículo 1 de la ley 21797 a los artículos 13, 14, 15, 75, 200 y el nuevo art. 209 bis,  entrarán en vigencia en el plazo de noventa días contado desde la publicación del reglamento, el que deberá dictarse en el plazo de doce meses contado desde su publicación en el Diario Oficial, el que también será suscrito por el Ministerio de Salud.<br />Con modificaciones que regirán a contar del 12-AGO-2026"
+            "mensaje": "La ley 21549 introdujo modificaciones a los artículos 4, 170 y 211 de esta ley, las cuales entrarán en vigor transcurridos noventa días desde la publicación en el Diario Oficial del último de los reglamentos a que hace referencia el artículo segundo transitorio del citado cuerpo legal.<br />La modificación ordenada por el artículo 1 de la ley 21797 a los artículos 13, 14, 15, 75, 200 y el nuevo art. 209 bis,  entrarán en vigencia en el plazo de noventa días contado desde la publicación del reglamento, el que deberá dictarse en el plazo de doce meses contado desde su publicación en el Diario Oficial, el que también será suscrito por el Ministerio de Salud."
           }
         ]
       },
-      "huella": "12b6505f94442c871009e5d024e559a6deebaf2d1d1a4961b76406d29868e7ef"
+      "huella": "4218d8ae83e23642d12ef3a603688f05c1c50b6f9fec65d70600563277922e41"
     },
     "219119": {
       "id_norma": "219119",
