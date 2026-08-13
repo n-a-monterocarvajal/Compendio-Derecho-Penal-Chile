@@ -1,1 +1,1 @@
-generador-compendios-leychile @ git+https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile.git@aeffe6f507fd39f852087eded5e606fed033e29c
+generador-compendios-leychile @ git+https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile.git@e5e59368fa53ca94b9f294b044ae05e22723f470
