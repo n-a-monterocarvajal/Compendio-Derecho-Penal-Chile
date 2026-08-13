@@ -11,12 +11,12 @@ Este repositorio revisa diariamente las versiones de sus normas y genera un nuev
 
 ## 📚 Normas incluidas
 
-1. [Decreto N.º 100, de 2005, del Ministerio Secretaría General de la Presidencia, que fija el texto refundido, coordinado y sistematizado de la Constitución Política de la República de Chile.](https://www.bcn.cl/leychile/navegar?idNorma=242302)
+1. [Decreto N.º 100, de 2005, del Ministerio Secretaría General de la Presidencia, que fija el texto refundido, coordinado y sistematizado de la **Constitución Política de la República de Chile**.](https://www.bcn.cl/leychile/navegar?idNorma=242302)
 2. [Decreto N.º 873, de 1990, del Ministerio de Relaciones Exteriores, que aprueba Convención Americana sobre Derechos Humanos, denominada "Pacto de San José de Costa Rica".](https://www.bcn.cl/leychile/navegar?idNorma=16022)
 3. [Decreto N.º 1.640, de 1998, del Ministerio de Relaciones Exteriores, que promulga la Convención Interamericana para Prevenir, Sancionar y Erradicar la Violencia contra la Mujer, denominada "Convención de Belem do Pará".](https://www.bcn.cl/leychile/navegar?idNorma=127037)
 4. [Decreto N.º 830, de 1990, del Ministerio de Relaciones Exteriores, que promulga Convención sobre los Derechos del Niño.](https://www.bcn.cl/leychile/navegar?idNorma=15824)
-5. [Código Penal.](https://www.bcn.cl/leychile/navegar?idNorma=1984)
-6. [Ley N.º 19.696, que establece Código Procesal Penal.](https://www.bcn.cl/leychile/navegar?idNorma=176595)
+5. [**Código Penal**.](https://www.bcn.cl/leychile/navegar?idNorma=1984)
+6. [Ley N.º 19.696, que establece **Código Procesal Penal**.](https://www.bcn.cl/leychile/navegar?idNorma=176595)
 7. [Decreto N.º 2.226, de 1944, del Ministerio de Justicia, Código de Justicia Militar.](https://www.bcn.cl/leychile/navegar?idNorma=18914)
 8. [Ley N.º 18.216, que establece penas que indica como sustitutivas a las penas privativas o restrictivas de libertad.](https://www.bcn.cl/leychile/navegar?idNorma=29636)
 9. [Ley N.º 20.000, que sustituye la Ley N.º 19.366, que sanciona el tráfico ilícito de estupefacientes y sustancias sicotrópicas.](https://www.bcn.cl/leychile/navegar?idNorma=235507)
