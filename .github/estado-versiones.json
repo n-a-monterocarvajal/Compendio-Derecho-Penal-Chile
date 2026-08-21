@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "actualizado_utc": "2026-08-12T12:03:50+00:00",
+  "actualizado_utc": "2026-08-21T11:47:12+00:00",
   "fuentes": {
     "242302": {
       "id_norma": "242302",
@@ -457,7 +457,7 @@
       "marcador": "Código Penal.",
       "titulo_bcn": "CÓDIGO PENAL",
       "vigencia_actual": {
-        "desde": "2026-08-12",
+        "desde": "2026-08-20",
         "hasta": "",
         "tipo": "2",
         "descripcion": "Última Versión"
@@ -1443,6 +1443,12 @@
         },
         {
           "desde": "2026-08-12",
+          "hasta": "2026-08-19",
+          "tipo": "1",
+          "descripcion": "Intermedio"
+        },
+        {
+          "desde": "2026-08-20",
           "hasta": "",
           "tipo": "2",
           "descripcion": "Última Versión"
@@ -1455,7 +1461,7 @@
         "presente": false,
         "alertas": []
       },
-      "huella": "fb35198910944c3c34b945c355ccefda75546ba2540a31ec9c08fcb013b5d31d"
+      "huella": "0c7a24761dbd04e02746d682e64d439224e0d61f6dbb5791c58c1a72c31278b7"
     },
     "176595": {
       "id_norma": "176595",
