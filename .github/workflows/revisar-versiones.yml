@@ -39,14 +39,24 @@ jobs:
             --cambios trabajo/cambios-versiones.json \
             --resumen trabajo/cambios-versiones.md
 
+      - name: Publicar resumen de la revisión
+        run: cat trabajo/cambios-versiones.md >> "$GITHUB_STEP_SUMMARY"
+
       - name: Persistir nuevo estado
-        if: steps.revisar.outputs.baseline_created == 'true' || steps.revisar.outputs.changes_detected == 'true'
+        if: steps.revisar.outputs.state_updated == 'true'
+        env:
+          SOLO_INFORMATIVO: ${{ steps.revisar.outputs.changes_detected != 'true' && steps.revisar.outputs.informational_changes == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .github/estado-versiones.json
           if ! git diff --cached --quiet; then
-            git commit -m "chore: actualizar estado de versiones"
+            if [ "$SOLO_INFORMATIVO" = "true" ]; then
+              mensaje="chore: registrar reclasificación de vigencias históricas"
+            else
+              mensaje="chore: actualizar estado de versiones"
+            fi
+            git commit -m "$mensaje"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
 
