@@ -1,0 +1,99 @@
+name: Prueba de descarga penal
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 12 * * 1"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: prueba-descarga-penal
+  cancel-in-progress: false
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v7
+
+      - name: Preparar Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Instalar generador
+        run: pip install -r app/requirements.txt
+
+      - name: Instalar Chromium de Playwright
+        run: python -m playwright install --with-deps chromium
+
+      - name: Preparar configuración de una sola norma
+        run: |
+          set -euo pipefail
+          jq '{
+            titulo_compendio: "Prueba de descarga",
+            salida_base: "PruebaDescarga",
+            fuentes: [.fuentes[0]]
+          }' app/fuentes.json > app/prueba-descarga.json
+          echo "Norma usada para la prueba: $(jq -r '.fuentes[0].marcador' app/prueba-descarga.json)"
+
+      - name: Descargar una norma y descartarla
+        run: generar-compendio-leychile --config app/prueba-descarga.json --salida trabajo/prueba-descarga.pdf
+
+      - name: Mostrar log si existe
+        if: always()
+        run: |
+          if [ -f trabajo/ultimo_log.txt ]; then
+            echo "----- trabajo/ultimo_log.txt -----"
+            cat trabajo/ultimo_log.txt || true
+          fi
+
+      - name: Subir diagnóstico si falla
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: diagnostico_prueba_descarga_penal
+          path: |
+            trabajo/ultimo_log.txt
+            trabajo/descargas/debug_*.png
+            trabajo/descargas/debug_*.html
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Avisar la falla con un issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          gh label create fallo-descarga \
+            --color B60205 \
+            --description "La prueba semanal de descarga desde Ley Chile falló" 2>/dev/null || true
+          {
+            echo "La prueba semanal de descarga falló."
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            echo "Esta prueba descarga una sola norma desde Ley Chile y descarta el resultado. Existe para"
+            echo "detectar un cambio del sitio antes de que una actualización normativa real necesite"
+            echo "generar el compendio."
+            echo
+            echo "Si el error es \"No se encontró el botón de descarga de Ley Chile\", cambió el flujo de descarga."
+            echo "La captura de pantalla y el HTML de la página quedan en los artifacts del run durante 30 días."
+          } > cuerpo-issue.md
+          existente=$(gh issue list --state open --label fallo-descarga --json number --jq '.[0].number // empty')
+          if [ -n "$existente" ]; then
+            gh issue comment "$existente" --body "La prueba volvió a fallar: $RUN_URL"
+          else
+            gh issue create \
+              --title "Falló la prueba de descarga desde Ley Chile" \
+              --body-file cuerpo-issue.md \
+              --label fallo-descarga
+          fi
