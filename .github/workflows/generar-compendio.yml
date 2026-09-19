@@ -12,6 +12,7 @@ permissions:
   contents: write
   id-token: write
   attestations: write
+  issues: write
 
 concurrency:
   group: generar-compendio-penal
@@ -165,3 +166,34 @@ jobs:
             trabajo/descargas/debug_*.html
           retention-days: 30
           if-no-files-found: ignore
+
+      - name: Avisar la falla con un issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          gh label create fallo-generacion \
+            --color B60205 \
+            --description "La generación automática del compendio falló" 2>/dev/null || true
+          {
+            echo "La generación del compendio falló y no se publicó ninguna versión nueva."
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            echo "El generador aborta la corrida completa cuando una norma no se puede descargar, así que"
+            echo "no se publica un compendio incompleto: o sale entero o no sale."
+            echo
+            echo "Si el error es \"No se encontró el botón de descarga de Ley Chile\", cambió el flujo de descarga."
+            echo "La captura de pantalla y el HTML de la página quedan en los artifacts del run durante 30 días."
+          } > cuerpo-issue.md
+          existente=$(gh issue list --state open --label fallo-generacion --json number --jq '.[0].number // empty')
+          if [ -n "$existente" ]; then
+            gh issue comment "$existente" --body "La generación volvió a fallar: $RUN_URL"
+          else
+            gh issue create \
+              --title "Falló la generación automática del compendio" \
+              --body-file cuerpo-issue.md \
+              --label fallo-generacion
+          fi
