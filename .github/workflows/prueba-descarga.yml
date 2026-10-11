@@ -73,6 +73,7 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
+          estado_github=$(bash .github/scripts/estado-github.sh 2>/dev/null || echo "No se pudo consultar el estado de GitHub.")
           gh label create fallo-descarga \
             --color B60205 \
             --description "La prueba semanal de descarga desde Ley Chile falló" 2>/dev/null || true
@@ -87,10 +88,12 @@ jobs:
             echo
             echo "Si el error es \"No se encontró el botón de descarga de Ley Chile\", cambió el flujo de descarga."
             echo "La captura de pantalla y el HTML de la página quedan en los artifacts del run durante 30 días."
+            echo
+            echo "$estado_github"
           } > cuerpo-issue.md
           existente=$(gh issue list --state open --label fallo-descarga --json number --jq '.[0].number // empty')
           if [ -n "$existente" ]; then
-            gh issue comment "$existente" --body "La prueba volvió a fallar: $RUN_URL"
+            gh issue comment "$existente" --body "$(printf '%s: %s\n\n%s\n' "La prueba volvió a fallar" "$RUN_URL" "$estado_github")"
           else
             gh issue create \
               --title "Falló la prueba de descarga desde Ley Chile" \
