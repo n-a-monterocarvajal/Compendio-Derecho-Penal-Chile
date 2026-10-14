@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "actualizado_utc": "2026-08-27T21:03:50+00:00",
+  "actualizado_utc": "2026-10-14T15:51:27+00:00",
   "fuentes": {
     "242302": {
       "id_norma": "242302",
@@ -1468,7 +1468,7 @@
       "marcador": "Ley N.º 19.696, que establece Código Procesal Penal.",
       "titulo_bcn": "ESTABLECE CODIGO PROCESAL PENAL",
       "vigencia_actual": {
-        "desde": "2026-07-22",
+        "desde": "2026-10-10",
         "hasta": "",
         "tipo": "2",
         "descripcion": "Última Versión"
@@ -1794,6 +1794,12 @@
         },
         {
           "desde": "2026-07-22",
+          "hasta": "2026-10-09",
+          "tipo": "1",
+          "descripcion": "Intermedio"
+        },
+        {
+          "desde": "2026-10-10",
           "hasta": "",
           "tipo": "2",
           "descripcion": "Última Versión"
@@ -1806,7 +1812,7 @@
         "presente": false,
         "alertas": []
       },
-      "huella": "3f6f9a2e1aa556192308f375dc3ba4b5dd207df920e35321d96ffe8745661806"
+      "huella": "8977e6997537f0c4691122859b4e5838162b04d52bbc3ab9d58702700a313152"
     },
     "18914": {
       "id_norma": "18914",
