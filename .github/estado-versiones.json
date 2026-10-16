@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "actualizado_utc": "2026-10-14T15:51:27+00:00",
+  "actualizado_utc": "2026-10-16T15:24:22+00:00",
   "fuentes": {
     "242302": {
       "id_norma": "242302",
@@ -1468,7 +1468,7 @@
       "marcador": "Ley N.º 19.696, que establece Código Procesal Penal.",
       "titulo_bcn": "ESTABLECE CODIGO PROCESAL PENAL",
       "vigencia_actual": {
-        "desde": "2026-10-10",
+        "desde": "2026-10-16",
         "hasta": "",
         "tipo": "2",
         "descripcion": "Última Versión"
@@ -1800,6 +1800,12 @@
         },
         {
           "desde": "2026-10-10",
+          "hasta": "2026-10-15",
+          "tipo": "1",
+          "descripcion": "Intermedio"
+        },
+        {
+          "desde": "2026-10-16",
           "hasta": "",
           "tipo": "2",
           "descripcion": "Última Versión"
@@ -1812,7 +1818,7 @@
         "presente": false,
         "alertas": []
       },
-      "huella": "8977e6997537f0c4691122859b4e5838162b04d52bbc3ab9d58702700a313152"
+      "huella": "81dd314330ebd01663b57fa523996fb506dc7685add01c43467bac8912b715a7"
     },
     "18914": {
       "id_norma": "18914",
@@ -3323,9 +3329,9 @@
       "titulo_bcn": "FIJA TEXTO REFUNDIDO, COORDINADO Y SISTEMATIZADO DE LA LEY DE TRÁNSITO",
       "vigencia_actual": {
         "desde": "2026-08-27",
-        "hasta": "2222-02-01",
-        "tipo": "2",
-        "descripcion": "Última Versión"
+        "hasta": "2026-10-15",
+        "tipo": "1",
+        "descripcion": "Intermedio"
       },
       "vigencias": [
         {
@@ -3642,6 +3648,12 @@
         },
         {
           "desde": "2026-08-27",
+          "hasta": "2026-10-15",
+          "tipo": "1",
+          "descripcion": "Intermedio"
+        },
+        {
+          "desde": "2026-10-16",
           "hasta": "2222-02-01",
           "tipo": "2",
           "descripcion": "Última Versión"
@@ -3669,7 +3681,7 @@
           }
         ]
       },
-      "huella": "09b427c406cf8cd7cc8084503b5b9a3762a5b3d395d5a049485ed0dff014cc6b"
+      "huella": "43516f27036cc4cc4f3b68087288e7d3b6c77071912b30c02e1bd67d1620c45c"
     },
     "219119": {
       "id_norma": "219119",
