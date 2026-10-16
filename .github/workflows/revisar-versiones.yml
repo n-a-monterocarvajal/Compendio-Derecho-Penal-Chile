@@ -70,6 +70,29 @@ jobs:
             --ref "$GITHUB_REF_NAME" \
             --field notas_actualizacion="$(cat trabajo/cambios-versiones.md)"
 
+      - name: Avisar normas derogadas o refundidas
+        if: steps.revisar.outputs.avisos_norma == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          gh label create aviso-norma \
+            --color D93F0B \
+            --description "Una norma del compendio fue derogada o refundida según Ley Chile" 2>/dev/null || true
+          {
+            echo "Según Ley Chile, una o más normas del compendio fueron derogadas o refundidas en otra."
+            echo "El compendio las sigue incluyendo: decide si se mantienen, se quitan o se reemplazan en \`app/fuentes.json\`."
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            cat trabajo/cambios-versiones.md
+          } > cuerpo-aviso.md
+          gh issue create \
+            --title "Revisar normas derogadas o refundidas del compendio" \
+            --body-file cuerpo-aviso.md \
+            --label aviso-norma
+
       - name: Subir resultado de la revisión
         if: always()
         uses: actions/upload-artifact@v7
