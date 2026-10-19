@@ -73,7 +73,7 @@ Ley Chile también corrige de tanto en tanto los límites de fecha entre version
 
 **Avisos de falla:** la generación, la prueba semanal de descarga de los lunes y la revisión diaria abren un *issue* cuando fallan, o comentan el que ya esté abierto. La revisión diaria no avisa cuando Ley Chile simplemente no respondió (timeout, conexión, HTTP 429 o 5xx), porque la revisión del día siguiente lo vuelve a intentar sola; sí avisa cuando respondió con una forma que no sabe leer. Cada aviso incluye el estado de GitHub en ese momento, consultado en [githubstatus.com](https://www.githubstatus.com), para distinguir una caída de GitHub de una falla propia.
 
-El obtenedor, el ensamblador PDF, el monitor de versiones y sus decisiones técnicas se mantienen en [GeneradorCompendiosLeyChile](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile). Este repositorio fija una revisión inmutable de ese motor —actualmente la [versión 0.1.7](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile/releases/tag/v0.1.7), declarada en `app/requirements.txt`— para que sus actualizaciones sean explícitas y auditables.
+El obtenedor, el ensamblador PDF, el monitor de versiones y sus decisiones técnicas se mantienen en [GeneradorCompendiosLeyChile](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile). Este repositorio fija una revisión inmutable de ese motor —actualmente la [versión 0.1.8](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile/releases/tag/v0.1.8), declarada en `app/requirements.txt`— para que sus actualizaciones sean explícitas y auditables.
 
 ## 🔐 Licencia
 
