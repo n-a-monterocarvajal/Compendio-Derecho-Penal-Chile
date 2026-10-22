@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "actualizado_utc": "2026-10-19T16:33:56+00:00",
+  "actualizado_utc": "2026-10-22T15:55:30+00:00",
   "fuentes": {
     "242302": {
       "id_norma": "242302",
@@ -3466,7 +3466,7 @@
       "marcador": "Decreto con Fuerza de Ley N.º 1, de 2009, de los Ministerios de Transportes y Telecomunicaciones y de Justicia, que fija el texto refundido, coordinado y sistematizado de la Ley N.º 18.290, de Tránsito.",
       "titulo_bcn": "FIJA TEXTO REFUNDIDO, COORDINADO Y SISTEMATIZADO DE LA LEY DE TRÁNSITO",
       "vigencia_actual": {
-        "desde": "2026-10-16",
+        "desde": "2026-10-22",
         "hasta": "2222-02-01",
         "tipo": "2",
         "descripcion": "Última Versión"
@@ -3792,6 +3792,12 @@
         },
         {
           "desde": "2026-10-16",
+          "hasta": "2026-10-21",
+          "tipo": "1",
+          "descripcion": "Intermedio"
+        },
+        {
+          "desde": "2026-10-22",
           "hasta": "2222-02-01",
           "tipo": "2",
           "descripcion": "Última Versión"
@@ -3819,13 +3825,13 @@
           }
         ]
       },
-      "huella": "0b03a155a3f80f313f4feb5c584364d0e0dc2ebba118a6a223d0b92195bd634a",
+      "huella": "8d848f1864e3539d9529f35805160209ff1ff797efe2046051ba290891f6d2c4",
       "estado": {
         "derogado": false,
         "derogacion_tacita": [],
         "alertas": []
       },
-      "version_vigente_indicada": "2026-10-16"
+      "version_vigente_indicada": ""
     },
     "219119": {
       "id_norma": "219119",
