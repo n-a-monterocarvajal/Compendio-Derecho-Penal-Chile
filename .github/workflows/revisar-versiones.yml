@@ -105,20 +105,34 @@ jobs:
           if-no-files-found: ignore
 
       - name: Avisar la falla con un issue
-        if: failure() && steps.revisar.outputs.tipo_falla != 'transitoria'
+        if: failure()
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           TIPO_FALLA: ${{ steps.revisar.outputs.tipo_falla }}
+          DETALLE_FALLA: ${{ steps.revisar.outputs.detalle_falla }}
         run: |
           set -euo pipefail
+          if [ "$TIPO_FALLA" = "transitoria" ]; then
+            # Una falla transitoria solo se avisa si las dos revisiones programadas
+            # anteriores también fallaron: tres días seguidos ya no parece pasajero.
+            fallas_previas=$(gh run list --workflow revisar-versiones.yml --event schedule --status completed \
+              --limit 2 --json conclusion --jq '[.[] | select(.conclusion == "failure")] | length' 2>/dev/null || echo 0)
+            if [ "$fallas_previas" -lt 2 ]; then
+              echo "Falla transitoria de Ley Chile; la revisión de mañana vuelve a intentarlo."
+              exit 0
+            fi
+          fi
           estado_github=$(bash .github/scripts/estado-github.sh 2>/dev/null || echo "No se pudo consultar el estado de GitHub.")
           gh label create fallo-revision \
             --color B60205 \
-            --description "La revisión diaria de versiones falló por una causa no transitoria" 2>/dev/null || true
+            --description "La revisión diaria de versiones falló por una causa no transitoria o repetida" 2>/dev/null || true
           case "$TIPO_FALLA" in
+            transitoria)
+              causa="Ley Chile no respondió o respondió sin JSON (timeout, conexión, HTTP 429 o 5xx, cuerpo vacío o página HTML) en esta revisión y en las dos anteriores. Si sigue así, puede haber cambiado el servicio get_norma_json o estar bloqueando a los runners de GitHub."
+              ;;
             formato)
-              causa="Ley Chile respondió, pero no con la forma que la revisión sabe leer: HTML en vez de JSON, un HTTP 4xx o metadatos sin alguno de los campos esperados. Lo más probable es que haya cambiado el servicio get_norma_json. El log del paso «Revisar versiones de Ley Chile» indica la norma y el campo que faltó."
+              causa="Ley Chile respondió, pero no con la forma que la revisión sabe leer: JSON ilegible, un HTTP 4xx o metadatos sin alguno de los campos esperados. Lo más probable es que haya cambiado el servicio get_norma_json."
               ;;
             *)
               causa="La revisión falló por una causa distinta de una respuesta de Ley Chile, por ejemplo al instalar el motor, al leer la configuración o el estado guardado, al versionar el estado nuevo o al lanzar la generación. El log del run indica el paso que falló."
@@ -131,14 +145,18 @@ jobs:
             echo
             echo "$causa"
             echo
-            echo "Las fallas transitorias de Ley Chile (timeout, conexión, HTTP 429 o 5xx) no abren issue:"
-            echo "la revisión del día siguiente vuelve a intentarlo sola."
+            if [ -n "${DETALLE_FALLA:-}" ]; then
+              echo "Detalle: $DETALLE_FALLA"
+              echo
+            fi
+            echo "Las fallas transitorias de Ley Chile (timeout, conexión, HTTP 429 o 5xx, cuerpo vacío o página HTML)"
+            echo "solo abren issue si se repiten tres días seguidos: antes, la revisión del día siguiente vuelve a intentarlo sola."
             echo
             echo "$estado_github"
           } > cuerpo-issue.md
           existente=$(gh issue list --state open --label fallo-revision --json number --jq '.[0].number // empty')
           if [ -n "$existente" ]; then
-            gh issue comment "$existente" --body "$(printf '%s: %s\n\n%s\n' "La revisión volvió a fallar" "$RUN_URL" "$estado_github")"
+            gh issue comment "$existente" --body "$(printf '%s: %s\n\n%s\n\n%s\n' "La revisión volvió a fallar" "$RUN_URL" "${DETALLE_FALLA:-Sin detalle.}" "$estado_github")"
           else
             gh issue create \
               --title "Falló la revisión diaria de versiones" \
