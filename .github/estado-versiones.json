@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "actualizado_utc": "2026-10-22T15:55:30+00:00",
+  "actualizado_utc": "2026-11-14T17:13:26+00:00",
   "fuentes": {
     "242302": {
       "id_norma": "242302",
@@ -2497,7 +2497,7 @@
     },
     "1195119": {
       "id_norma": "1195119",
-      "marcador": "Ley N.º 21.595, Ley de Delitos Económicos.",
+      "marcador": "Ley N.º 21.595, Ley de Delitos Económicos. Selección: títulos I, II y III, y título final.",
       "titulo_bcn": "LEY DE DELITOS ECONÓMICOS",
       "vigencia_actual": {
         "desde": "2025-09-29",
@@ -2508,15 +2508,27 @@
       "vigencias": [
         {
           "desde": "2023-08-17",
+          "hasta": "",
+          "tipo": "3",
+          "descripcion": "Única"
+        },
+        {
+          "desde": "2023-08-17",
           "hasta": "2024-09-03",
           "tipo": "0",
           "descripcion": "Texto Original"
         },
         {
-          "desde": "2024-09-04",
+          "desde": "2023-08-17",
           "hasta": "2025-09-28",
-          "tipo": "1",
-          "descripcion": "Intermedio"
+          "tipo": "0",
+          "descripcion": "Texto Original"
+        },
+        {
+          "desde": "2024-09-04",
+          "hasta": "",
+          "tipo": "2",
+          "descripcion": "Última Versión"
         },
         {
           "desde": "2025-09-29",
@@ -2527,7 +2539,7 @@
         {
           "desde": "2027-02-25",
           "hasta": "",
-          "tipo": "7",
+          "tipo": "",
           "descripcion": "Con Vigencia Diferida por Fecha"
         }
       ],
@@ -2544,13 +2556,14 @@
           }
         ]
       },
-      "huella": "5d169f95aa6b04185624276101ca8cfa76a69f6b537649d117f16399d4631f66",
+      "huella": "29fd3a85cdaa8e5e59e8738ba085809a0989b222805736f8ae02570b51bb6fbd",
       "estado": {
         "derogado": false,
         "derogacion_tacita": [],
         "alertas": []
       },
-      "version_vigente_indicada": ""
+      "version_vigente_indicada": "",
+      "id_parte": "10449613,10449621,10449659,10449681"
     },
     "244803": {
       "id_norma": "244803",
@@ -2968,7 +2981,7 @@
     },
     "1092269": {
       "id_norma": "1092269",
-      "marcador": "Ley N.º 20.931, que facilita la aplicación efectiva de las penas establecidas para los delitos de robo, hurto y receptación y mejora la persecución penal en dichos delitos.",
+      "marcador": "Ley N.º 20.931, que facilita la aplicación efectiva de las penas establecidas para los delitos de robo, hurto y receptación y mejora la persecución penal en dichos delitos. Selección: artículos 11, 12, 12 bis y 13, y disposiciones transitorias.",
       "titulo_bcn": "FACILITA LA APLICACIÓN EFECTIVA DE LAS PENAS ESTABLECIDAS PARA LOS DELITOS DE ROBO, HURTO Y RECEPTACIÓN Y MEJORA LA PERSECUCIÓN PENAL EN DICHOS DELITOS",
       "vigencia_actual": {
         "desde": "2026-08-12",
@@ -2979,27 +2992,39 @@
       "vigencias": [
         {
           "desde": "2016-07-05",
+          "hasta": "",
+          "tipo": "3",
+          "descripcion": "Única"
+        },
+        {
+          "desde": "2016-07-05",
           "hasta": "2023-04-09",
           "tipo": "0",
           "descripcion": "Texto Original"
         },
         {
           "desde": "2023-04-10",
-          "hasta": "2023-04-28",
-          "tipo": "1",
-          "descripcion": "Intermedio"
-        },
-        {
-          "desde": "2023-04-29",
           "hasta": "2023-09-10",
           "tipo": "1",
           "descripcion": "Intermedio"
         },
         {
-          "desde": "2023-09-11",
+          "desde": "2023-04-10",
           "hasta": "2026-08-11",
           "tipo": "1",
           "descripcion": "Intermedio"
+        },
+        {
+          "desde": "2023-04-29",
+          "hasta": "",
+          "tipo": "3",
+          "descripcion": "Única"
+        },
+        {
+          "desde": "2023-09-11",
+          "hasta": "",
+          "tipo": "2",
+          "descripcion": "Última Versión"
         },
         {
           "desde": "2026-08-12",
@@ -3015,13 +3040,14 @@
         "presente": false,
         "alertas": []
       },
-      "huella": "580dbb8320425cd875aa3d202e2a7f38fe1fa2640202c0ef28e9a31413d6092a",
+      "huella": "bf74f0cb103162f2445c34c91ac464ca65725db43f663d5d6d837c8c5cf07205",
       "estado": {
         "derogado": false,
         "derogacion_tacita": [],
         "alertas": []
       },
-      "version_vigente_indicada": ""
+      "version_vigente_indicada": "",
+      "id_parte": "9713188,9713189,10426625,9713190,9713194"
     },
     "1113932": {
       "id_norma": "1113932",
