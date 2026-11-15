@@ -159,6 +159,22 @@ jobs:
           TAG: ${{ steps.publicacion.outputs.tag }}
         run: gh release edit "$TAG" --draft=false --latest
 
+      - name: Cerrar el issue de falla abierto
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.publicacion.outputs.tag }}
+        run: |
+          url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/$TAG"
+          abiertos=$(gh issue list --state open --label fallo-generacion --json number --jq '.[].number') || {
+            echo "::warning::No se pudieron consultar los issues de falla abiertos."
+            exit 0
+          }
+          for numero in $abiertos; do
+            gh issue close "$numero" --reason completed \
+              --comment "La generación se completó y publicó el release [$TAG]($url)." \
+              || echo "::warning::No se pudo cerrar el issue #$numero."
+          done
+
       - name: Subir diagnóstico si falla
         if: failure()
         uses: actions/upload-artifact@v7
