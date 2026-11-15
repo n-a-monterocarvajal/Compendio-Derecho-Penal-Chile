@@ -7,6 +7,10 @@ on:
         description: Motivo y normas actualizadas
         required: false
         default: Ejecución manual del compendio.
+      intento:
+        description: Número de intento (el 2 lo lanza el reintento automático y ya no se reintenta)
+        required: false
+        default: "1"
 
 permissions:
   contents: write
@@ -172,8 +176,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          INTENTO: ${{ inputs.intento }}
         run: |
           set -euo pipefail
+          if [ "${INTENTO:-1}" = "2" ]; then
+            aviso_reintento="Este era el segundo intento automático; no se volverá a reintentar solo."
+          else
+            aviso_reintento="La generación se reintentará automáticamente en una hora."
+          fi
           estado_github=$(bash .github/scripts/estado-github.sh 2>/dev/null || echo "No se pudo consultar el estado de GitHub.")
           gh label create fallo-generacion \
             --color B60205 \
@@ -182,6 +192,8 @@ jobs:
             echo "La generación del compendio falló y no se publicó ninguna versión nueva."
             echo
             echo "Run: $RUN_URL"
+            echo
+            echo "$aviso_reintento"
             echo
             echo "El generador aborta la corrida completa cuando una norma no se puede descargar, así que"
             echo "no se publica un compendio incompleto: o sale entero o no sale."
@@ -193,10 +205,33 @@ jobs:
           } > cuerpo-issue.md
           existente=$(gh issue list --state open --label fallo-generacion --json number --jq '.[0].number // empty')
           if [ -n "$existente" ]; then
-            gh issue comment "$existente" --body "$(printf '%s: %s\n\n%s\n' "La generación volvió a fallar" "$RUN_URL" "$estado_github")"
+            gh issue comment "$existente" --body "$(printf '%s: %s\n\n%s\n\n%s\n' "La generación volvió a fallar" "$RUN_URL" "$aviso_reintento" "$estado_github")"
           else
             gh issue create \
               --title "Falló la generación automática del compendio" \
               --body-file cuerpo-issue.md \
               --label fallo-generacion
           fi
+
+  reintento:
+    needs: generar
+    if: ${{ failure() && format('{0}', inputs.intento) != '2' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    permissions:
+      actions: write
+
+    steps:
+      - name: Esperar una hora antes del segundo intento
+        run: sleep 3600
+
+      - name: Lanzar el segundo intento
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTAS_ACTUALIZACION: ${{ inputs.notas_actualizacion }}
+        run: |
+          gh workflow run generar-compendio.yml \
+            --repo "$GITHUB_REPOSITORY" \
+            --ref "$GITHUB_REF_NAME" \
+            --field notas_actualizacion="$NOTAS_ACTUALIZACION" \
+            --field intento=2
