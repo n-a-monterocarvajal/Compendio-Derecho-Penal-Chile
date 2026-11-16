@@ -22,12 +22,14 @@ Este repositorio revisa diariamente las versiones de sus normas y genera un nuev
 9. [Ley N.º 20.000, que sustituye la Ley N.º 19.366, que sanciona el tráfico ilícito de estupefacientes y sustancias sicotrópicas.](https://www.bcn.cl/leychile/navegar?idNorma=235507)
 10. [Ley N.º 20.393, que establece la responsabilidad penal de las personas jurídicas en los delitos que indica.](https://www.bcn.cl/leychile/navegar?idNorma=1008668)
 11. [Ley N.º 21.675, que estatuye medidas para prevenir, sancionar y erradicar la violencia en contra de las mujeres, en razón de su género.](https://www.bcn.cl/leychile/navegar?idNorma=1204220)
-12. [Ley N.º 21.595, Ley de Delitos Económicos. Selección: títulos I, II y III, y título final.](https://www.bcn.cl/leychile/navegar?idNorma=1195119&idParte=10449613)
+12. ◐ [Ley N.º 21.595, Ley de Delitos Económicos.](https://www.bcn.cl/leychile/navegar?idNorma=1195119&idParte=10449613)
+    - *Selección: títulos I, II y III, y título final.*
 13. [Ley N.º 20.084, que establece un sistema de responsabilidad de los adolescentes por infracciones a la ley penal.](https://www.bcn.cl/leychile/navegar?idNorma=244803)
 14. [Ley N.º 19.327, de derechos y deberes en los espectáculos de fútbol profesional.](https://www.bcn.cl/leychile/navegar?idNorma=30694)
 15. [Ley N.º 19.640, que establece la Ley Orgánica Constitucional del Ministerio Público.](https://www.bcn.cl/leychile/navegar?idNorma=145437)
 16. [Ley N.º 19.718, que crea la Defensoría Penal Pública.](https://www.bcn.cl/leychile/navegar?idNorma=182755)
-17. [Ley N.º 20.931, que facilita la aplicación efectiva de las penas establecidas para los delitos de robo, hurto y receptación y mejora la persecución penal en dichos delitos. Selección: artículos 11, 12, 12 bis y 13, y disposiciones transitorias.](https://www.bcn.cl/leychile/navegar?idNorma=1092269&idParte=9713188)
+17. ◐ [Ley N.º 20.931, que facilita la aplicación efectiva de las penas establecidas para los delitos de robo, hurto y receptación y mejora la persecución penal en dichos delitos.](https://www.bcn.cl/leychile/navegar?idNorma=1092269&idParte=9713188)
+    - *Selección: artículos 11, 12, 12 bis y 13, y disposiciones transitorias.*
 18. [Ley N.º 21.057, que regula entrevistas grabadas en video y otras medidas de resguardo a menores de edad, víctimas de delitos sexuales.](https://www.bcn.cl/leychile/navegar?idNorma=1113932)
 19. [Ley N.º 20.009, que establece un régimen de limitación de responsabilidad para titulares o usuarios de tarjetas de pago y transacciones electrónicas en caso de extravío, hurto, robo o fraude.](https://www.bcn.cl/leychile/navegar?idNorma=236736)
 20. [Ley N.º 20.066, que establece Ley de Violencia Intrafamiliar.](https://www.bcn.cl/leychile/navegar?idNorma=242648)
@@ -39,9 +41,11 @@ Este repositorio revisa diariamente las versiones de sus normas y genera un nuev
 26. [Ley N.º 17.336, Propiedad Intelectual.](https://www.bcn.cl/leychile/navegar?idNorma=28933)
 27. [Decreto Ley N.º 2.460, de 1979, del Ministerio de Defensa Nacional, que dicta Ley Orgánica de Policía de Investigaciones de Chile.](https://www.bcn.cl/leychile/navegar?idNorma=6926)
 
+*◐ Norma de la que el compendio incluye solo una selección de su articulado, indicada bajo su título. Las demás normas se incluyen completas.*
+
 *La selección de las normas está basada en el índice de la publicación [Compilado de Derecho Penal y Procesal Penal (Hammurabi)](https://www.editorialhammurabi.com/shop/pais/chile/compilado-de-derecho-penal-y-procesal-penal-2026-hammurabi/).*
 
-*De las leyes que además modifican otras normas se incluye una selección: sus artículos permanentes con contenido propio y sus disposiciones transitorias. Las modificaciones ya están incorporadas en los textos de las normas que reforman. Cada una se indica en el índice como «Selección».*
+*De las leyes que además modifican otras normas se incluye una selección: sus artículos permanentes con contenido propio y sus disposiciones transitorias. Las modificaciones ya están incorporadas en los textos de las normas que reforman. En el índice se marcan con «◐» y, debajo, se indica la selección incluida.*
 
 ## 📄 PDF generado
 
@@ -75,7 +79,7 @@ Ley Chile también corrige de tanto en tanto los límites de fecha entre version
 
 **Avisos de falla:** la generación, la prueba semanal de descarga de los lunes y la revisión diaria abren un *issue* cuando fallan, o comentan el que ya esté abierto. La revisión diaria no avisa cuando Ley Chile simplemente no respondió (timeout, conexión, HTTP 429 o 5xx), porque la revisión del día siguiente lo vuelve a intentar sola; sí avisa cuando respondió con una forma que no sabe leer. Cada aviso incluye el estado de GitHub en ese momento, consultado en [githubstatus.com](https://www.githubstatus.com), para distinguir una caída de GitHub de una falla propia.
 
-El obtenedor, el ensamblador PDF, el monitor de versiones y sus decisiones técnicas se mantienen en [GeneradorCompendiosLeyChile](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile). Este repositorio fija una revisión inmutable de ese motor —actualmente la [versión 0.1.12](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile/releases/tag/v0.1.12), declarada en `app/requirements.txt`— para que sus actualizaciones sean explícitas y auditables.
+El obtenedor, el ensamblador PDF, el monitor de versiones y sus decisiones técnicas se mantienen en [GeneradorCompendiosLeyChile](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile). Este repositorio fija una revisión inmutable de ese motor —actualmente la [versión 0.1.13](https://github.com/n-a-monterocarvajal/GeneradorCompendiosLeyChile/releases/tag/v0.1.13), declarada en `app/requirements.txt`— para que sus actualizaciones sean explícitas y auditables.
 
 ## 🔐 Licencia
 
