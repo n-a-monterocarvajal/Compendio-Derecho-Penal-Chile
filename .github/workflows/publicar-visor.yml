@@ -1,0 +1,131 @@
+name: Publicar visor en línea
+
+# Publica en GitHub Pages un visor del PDF del último release, con índice y buscador.
+# El PDF se copia del release al sitio en cada publicación; no se guarda en el historial del repositorio.
+
+on:
+  # La generación lo despacha al publicar un release (los eventos `release` creados con
+  # GITHUB_TOKEN no disparan otros workflows).
+  workflow_dispatch:
+  release:
+    types: [published]
+  push:
+    branches: [main]
+    paths:
+      - visor/**
+      - .github/scripts/preparar-visor.py
+      - .github/workflows/publicar-visor.yml
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publicar-visor
+  cancel-in-progress: true
+
+env:
+  PDFJS_VERSION: 6.5.438
+  PYMUPDF_VERSION: "2.1"
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.intento1.outputs.page_url || steps.intento2.outputs.page_url }}
+
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v7
+
+      - name: Preparar Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Instalar PyMuPDF
+        run: pip install "pymupdf==${PYMUPDF_VERSION}"
+
+      - name: Descargar el PDF del último release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          datos=$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName,url,publishedAt,assets)
+          tag=$(jq -r '.tagName' <<<"$datos")
+          nombre_pdf=$(jq -r '[.assets[] | select(.name | endswith(".pdf"))][0].name // empty' <<<"$datos")
+          if [ -z "$nombre_pdf" ]; then
+            echo "El release $tag no tiene un PDF adjunto." >&2
+            exit 1
+          fi
+          mkdir -p descarga
+          gh release download "$tag" --repo "$GITHUB_REPOSITORY" --pattern '*.pdf' --pattern '*.sha256' --dir descarga
+          (cd descarga && sha256sum --check --strict ./*.sha256)
+          {
+            echo "tag=$tag"
+            echo "url=$(jq -r '.url' <<<"$datos")"
+            echo "publicado=$(jq -r '.publishedAt' <<<"$datos")"
+            echo "url_descarga=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/download/$tag/$nombre_pdf"
+            echo "pdf=$(ls descarga/*.pdf)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Armar el sitio
+        env:
+          TAG: ${{ steps.release.outputs.tag }}
+          URL_RELEASE: ${{ steps.release.outputs.url }}
+          URL_DESCARGA: ${{ steps.release.outputs.url_descarga }}
+          PUBLICADO: ${{ steps.release.outputs.publicado }}
+          PDF: ${{ steps.release.outputs.pdf }}
+        run: |
+          set -euo pipefail
+          mkdir -p sitio/pdfjs/build sitio/pdfjs/web pdfjs-npm
+          cp -r visor/. sitio/
+
+          # PDF.js se sirve desde el mismo sitio (sin CDN), en una versión fija.
+          npm pack "pdfjs-dist@${PDFJS_VERSION}" --pack-destination pdfjs-npm --silent
+          tar -xzf pdfjs-npm/pdfjs-dist-*.tgz -C pdfjs-npm
+          paquete=pdfjs-npm/package
+          cp "$paquete"/build/pdf.min.mjs "$paquete"/build/pdf.worker.min.mjs sitio/pdfjs/build/
+          cp -r "$paquete"/web/pdf_viewer.mjs "$paquete"/web/pdf_viewer.css "$paquete"/web/images sitio/pdfjs/web/
+          cp -r "$paquete"/standard_fonts "$paquete"/cmaps "$paquete"/wasm "$paquete"/LICENSE sitio/pdfjs/
+
+          python .github/scripts/preparar-visor.py \
+            --pdf "$PDF" \
+            --salida sitio \
+            --tag "$TAG" \
+            --url-release "$URL_RELEASE" \
+            --url-descarga "$URL_DESCARGA" \
+            --publicado "$PUBLICADO"
+          touch sitio/.nojekyll
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v6
+
+      - name: Subir el sitio
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: sitio
+
+      # El artefacto recién subido a veces tarda unos segundos en aparecer en el listado
+      # que consulta deploy-pages ("No artifacts named github-pages"): se espera y,
+      # si aun así falla, se reintenta una vez.
+      - name: Esperar que el artefacto quede disponible
+        run: sleep 20
+
+      - name: Publicar en GitHub Pages
+        id: intento1
+        continue-on-error: true
+        uses: actions/deploy-pages@v5
+
+      - name: Esperar antes de reintentar
+        if: steps.intento1.outcome == 'failure'
+        run: sleep 60
+
+      - name: Publicar en GitHub Pages (reintento)
+        id: intento2
+        if: steps.intento1.outcome == 'failure'
+        uses: actions/deploy-pages@v5
