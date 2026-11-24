@@ -3,6 +3,7 @@
 [![Última versión](https://img.shields.io/github/v/release/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile?sort=date&display_name=tag&label=%C3%BAltima%20versi%C3%B3n)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/releases/latest)
 [![Revisión diaria](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/revisar-versiones.yml/badge.svg?branch=main)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/revisar-versiones.yml)
 [![Generación](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/generar-compendio.yml/badge.svg?branch=main)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/actions/workflows/generar-compendio.yml)
+[![Leer en línea](https://img.shields.io/badge/leer-en%20l%C3%ADnea-1f4e8c?logo=readthedocs&logoColor=white)](https://n-a-monterocarvajal.github.io/Compendio-Derecho-Penal-Chile/)
 [![Licencia: MIT](https://img.shields.io/github/license/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile?label=licencia)](https://github.com/n-a-monterocarvajal/Compendio-Derecho-Penal-Chile/blob/main/LICENSE)
 
 Genera y actualiza automáticamente un compendio en PDF de normas penales chilenas obtenidas desde el servicio Ley Chile, de la Biblioteca del Congreso Nacional de Chile.
@@ -63,9 +64,23 @@ La versión más reciente del compendio se publica como *release* del repositori
 
 El historial de versiones anteriores se encuentra disponible en la sección de *releases* del repositorio.
 
+También puede leerse sin descargarlo en el [visor en línea](https://n-a-monterocarvajal.github.io/Compendio-Derecho-Penal-Chile/).
+
 Cada publicación nueva incluye un archivo `.sha256`, una certificación de procedencia de GitHub y un enlace al *run* que produjo el PDF. Las notas del *release* contienen el comando exacto para verificar la certificación. Las publicaciones futuras son inmutables: una corrección siempre origina una versión nueva.
 
 Los *artifacts* del PDF y su *checksum* se mantienen adicionalmente como respaldo temporal durante 30 días.
+
+## 🔎 Leer en línea
+
+[Abrir el compendio en el visor en línea](https://n-a-monterocarvajal.github.io/Compendio-Derecho-Penal-Chile/)
+
+El visor muestra el PDF del último *release* sin esperar a que se descargue completo y sin depender del lector de PDF del navegador. Incluye:
+
+- **Índice navegable** con las normas y sus divisiones internas (títulos, párrafos, artículos), tal como los marcadores del PDF. Las normas incluidas solo en parte llevan «◐» y su selección de articulado.
+- **Buscador propio** (también con <kbd>Ctrl</kbd>+<kbd>F</kbd>) sobre todo el compendio: entrega la lista completa de coincidencias con su contexto, la norma y el artículo donde aparece cada una y su página; con <kbd>Enter</kbd> y <kbd>Mayús</kbd>+<kbd>Enter</kbd> se recorren en el documento. No distingue mayúsculas ni tildes (la ñ sí se distingue) y permite limitar la búsqueda a la norma que se está leyendo o a palabras completas.
+- **Enlaces a una página** con la forma `…/#pagina=123`.
+
+El *workflow* `publicar-visor.yml` arma el sitio cada vez que se publica un compendio: descarga el PDF del *release*, verifica su suma SHA-256, extrae el texto de cada página para el buscador y lo publica en GitHub Pages junto con [PDF.js](https://mozilla.github.io/pdf.js/). El PDF no se guarda en el historial del repositorio.
 
 ## 🔄 Cómo funciona y se actualiza el compendio
 

@@ -13,6 +13,7 @@ on:
         default: "1"
 
 permissions:
+  actions: write
   contents: write
   id-token: write
   attestations: write
@@ -158,6 +159,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.publicacion.outputs.tag }}
         run: gh release edit "$TAG" --draft=false --latest
+
+      - name: Actualizar el visor en línea
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run publicar-visor.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
+            || echo "::warning::No se pudo lanzar la actualización del visor en línea."
 
       - name: Cerrar el issue de falla abierto
         env:
